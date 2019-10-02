@@ -4,6 +4,8 @@
 
 ## Initializing
 
+[Moleculel In-Depth Information](https://blog.codecentric.de/en/2018/12/test-driven-infrastructure-ansible-molecule/)
+
 To keep environments clean, it is recommended to use a python virtualenvironment
 
 ```
@@ -46,6 +48,23 @@ Molecule sets up a default file structure as shown above. We can test the initia
 
 ```
 $ molecule test
+```
+
+## Speeding tests up
+
+Molecule tests can be ignored by adding the `notest` tag or `molecule-notest`. For example, the following task will be skipped.
+
+```
+- name: download packages
+  tags:
+    - molecule-notest
+  uri:
+    url: "{{ item }}"
+    dest: /tmp/downloads/icp
+    headers:
+      X-JFrog-Art-Api: "{{ api_key.default }}"
+  with_items: "{{ downloads.default[icp_version.default] }}"
+# tasks file for molecule-test
 ```
 
 ## Example
